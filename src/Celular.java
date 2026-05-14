@@ -2,11 +2,13 @@ public class Celular {
     private String cor;
     private String marca;
     private int bateria;
+    private Dono dono;
 
     // CONSTRUTOR
-    public Celular(String cor, String marca) {
+    public Celular(String cor, String marca, Dono dono) {
         this.setCor(cor);
         this.setMarca(marca);
+        this.setDono(dono);
         this.setBateria(100);
     }
 
@@ -23,6 +25,10 @@ public class Celular {
         return bateria;
     }
 
+    public Dono getDono() {
+        return dono;
+    }
+
     // SETTERS
     public void setCor(String cor) {
         this.cor = cor;
@@ -30,6 +36,10 @@ public class Celular {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public void setDono(Dono dono) {
+        this.dono = dono;
     }
 
     // REGRA ESPECIAL: bateria só aceita valores entre 0 e 100

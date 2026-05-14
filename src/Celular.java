@@ -3,6 +3,13 @@ public class Celular {
     private String marca;
     private int bateria;
 
+    // CONSTRUTOR
+    public Celular(String cor, String marca) {
+        this.setCor(cor);
+        this.setMarca(marca);
+        this.setBateria(100);
+    }
+
     // GETTERS
     public String getCor() {
         return cor;
@@ -34,7 +41,7 @@ public class Celular {
         }
     }
 
-    // MÉTODOS DA MISSÃO ANTERIOR
+    // MÉTODOS
     public void carregarBateria(int quantidade) {
         if (quantidade <= 0) {
             System.out.println("Erro: a quantidade para carregar deve ser maior que zero.");

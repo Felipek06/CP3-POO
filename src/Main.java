@@ -1,12 +1,8 @@
 public class Main {
     public static void main(String[] args) {
 
-        Celular meuCelular = new Celular();
-
-        // Setters válidos
-        meuCelular.setCor("preto");
-        meuCelular.setMarca("samsung");
-        meuCelular.setBateria(100);
+        // Construtor com argumentos obrigatórios
+        Celular meuCelular = new Celular("preto", "samsung");
 
         System.out.println("=== Dados do Celular ===");
         System.out.println("Cor: " + meuCelular.getCor());

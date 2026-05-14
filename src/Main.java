@@ -1,35 +1,36 @@
 public class Main {
     public static void main(String[] args) {
 
-        // Criando o Dono
+        // Criando os Donos
         Dono dono1 = new Dono("João Silva", "12345678901");
+        Dono dono2 = new Dono("Maria Lima", "98765432100");
 
-        // Criando o Celular já com o Dono associado
-        Celular meuCelular = new Celular("preto", "samsung", dono1);
+        // Criando o Android
+        Android meuAndroid = new Android("preto", "samsung", dono1, "Android 14");
 
-        System.out.println("=== Dados do Celular ===");
-        System.out.println("Cor: " + meuCelular.getCor());
-        System.out.println("Marca: " + meuCelular.getMarca());
-        System.out.println("Bateria: " + meuCelular.getBateria() + "%");
-        System.out.println("Dono: " + meuCelular.getDono().getNome());
-        System.out.println("CPF do Dono: " + meuCelular.getDono().getCpf());
+        // Criando o Iphone
+        Iphone meuIphone = new Iphone("branco", "apple", dono2, "iOS 17");
 
-        System.out.println("\n=== Testando regra do CPF ===");
-        Dono donoInvalido = new Dono("Maria", "123");        // inválido: CPF curto
-        Dono donoInvalido2 = new Dono("Carlos", null);       // inválido: CPF nulo
-        Dono donoValido = new Dono("Ana Lima", "98765432100"); // válido
+        System.out.println("=== Dados do Android ===");
+        System.out.println("Cor: " + meuAndroid.getCor());
+        System.out.println("Marca: " + meuAndroid.getMarca());
+        System.out.println("Bateria: " + meuAndroid.getBateria() + "%");
+        System.out.println("Dono: " + meuAndroid.getDono().getNome());
+        System.out.println("Versão: " + meuAndroid.getVersaoAndroid());
 
-        System.out.println("\n=== Testando regra especial: setBateria ===");
-        meuCelular.setBateria(-10);   // inválido: negativo
-        meuCelular.setBateria(150);   // inválido: acima de 100
-        meuCelular.setBateria(100);   // válido
+        System.out.println("\n=== Dados do Iphone ===");
+        System.out.println("Cor: " + meuIphone.getCor());
+        System.out.println("Marca: " + meuIphone.getMarca());
+        System.out.println("Bateria: " + meuIphone.getBateria() + "%");
+        System.out.println("Dono: " + meuIphone.getDono().getNome());
+        System.out.println("Versão: " + meuIphone.getVersaoIOS());
 
-        System.out.println("\n=== Testes: usarBateria ===");
-        meuCelular.usarBateria(30);   // válido: 100 -> 70
-        meuCelular.usarBateria(80);   // limite: trava em 0%
+        System.out.println("\n=== Testando regras das subclasses ===");
+        Android androidInvalido = new Android("azul", "motorola", dono1, "");   // inválido: versão vazia
+        Iphone iphoneInvalido = new Iphone("preto", "apple", dono2, null);      // inválido: versão nula
 
-        System.out.println("\n=== Testes: carregarBateria ===");
-        meuCelular.carregarBateria(50);  // válido: 0 -> 50
-        meuCelular.carregarBateria(80);  // limite: trava em 100%
+        System.out.println("\n=== Testando métodos herdados ===");
+        meuAndroid.usarBateria(30);       // herdado de Celular
+        meuIphone.carregarBateria(50);    // herdado de Celular
     }
 }

@@ -20,4 +20,12 @@ public class Android extends Celular {
             this.versaoAndroid = versaoAndroid;
         }
     }
+
+    @Override
+    public String exibirInfo() {
+        return "Android | Marca: " + getMarca() + " | Cor: " + getCor() +
+                " | Bateria: " + getBateria() + "%" +
+                " | Versão: " + versaoAndroid +
+                " | Dono: " + getDono().getNome();
+    }
 }

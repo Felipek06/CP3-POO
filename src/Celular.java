@@ -79,4 +79,8 @@ public class Celular {
             System.out.println("Bateria utilizada. Nível atual: " + bateria + "%");
         }
     }
+
+    public String exibirInfo() {
+        return "Celular | Marca: " + getMarca() + " | Cor: " + getCor() + " | Bateria: " + getBateria() + "%";
+    }
 }

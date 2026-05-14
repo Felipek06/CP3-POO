@@ -20,4 +20,12 @@ public class Iphone extends Celular {
             this.versaoIOS = versaoIOS;
         }
     }
+
+    @Override
+    public String exibirInfo() {
+        return "iPhone | Marca: " + getMarca() + " | Cor: " + getCor() +
+                " | Bateria: " + getBateria() + "%" +
+                " | Versão: " + versaoIOS +
+                " | Dono: " + getDono().getNome();
+    }
 }

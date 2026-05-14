@@ -1,4 +1,4 @@
-public class Iphone extends Celular {
+public class Iphone extends Celular implements Carregavel {
     private String versaoIOS;
 
     // CONSTRUTOR
@@ -19,6 +19,17 @@ public class Iphone extends Celular {
         } else {
             this.versaoIOS = versaoIOS;
         }
+    }
+
+    // INTERFACE Carregavel
+    @Override
+    public void carregar(int quantidade) {
+        carregarBateria(quantidade);
+    }
+
+    @Override
+    public int getNivelCarga() {
+        return getBateria();
     }
 
     @Override

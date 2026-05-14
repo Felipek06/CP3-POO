@@ -1,4 +1,4 @@
-public class Android extends Celular {
+public class Android extends Celular implements Carregavel {
     private String versaoAndroid;
 
     // CONSTRUTOR
@@ -19,6 +19,17 @@ public class Android extends Celular {
         } else {
             this.versaoAndroid = versaoAndroid;
         }
+    }
+
+    // INTERFACE Carregavel
+    @Override
+    public void carregar(int quantidade) {
+        carregarBateria(quantidade);
+    }
+
+    @Override
+    public int getNivelCarga() {
+        return getBateria();
     }
 
     @Override

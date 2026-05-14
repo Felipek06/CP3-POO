@@ -1,4 +1,4 @@
-public class Celular {
+public abstract class Celular {
     private String cor;
     private String marca;
     private int bateria;
@@ -11,6 +11,8 @@ public class Celular {
         this.setDono(dono);
         this.setBateria(100);
     }
+
+    public abstract String tipoDeConector();
 
     // GETTERS
     public String getCor() {
@@ -81,6 +83,8 @@ public class Celular {
     }
 
     public String exibirInfo() {
-        return "Celular | Marca: " + getMarca() + " | Cor: " + getCor() + " | Bateria: " + getBateria() + "%";
+        return "Celular | Marca: " + getMarca() + " | Cor: " + getCor() +
+                " | Bateria: " + getBateria() + "%" +
+                " | Conector: " + tipoDeConector();
     }
 }

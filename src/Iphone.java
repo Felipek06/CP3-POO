@@ -22,10 +22,16 @@ public class Iphone extends Celular {
     }
 
     @Override
+    public String tipoDeConector() {
+        return "Lightning";
+    }
+
+    @Override
     public String exibirInfo() {
         return "iPhone | Marca: " + getMarca() + " | Cor: " + getCor() +
                 " | Bateria: " + getBateria() + "%" +
                 " | Versão: " + versaoIOS +
+                " | Conector: " + tipoDeConector() +
                 " | Dono: " + getDono().getNome();
     }
 }

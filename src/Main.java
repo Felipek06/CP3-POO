@@ -8,11 +8,18 @@ public class Main {
         Dono dono1 = new Dono("João Silva", "12345678901");
         Dono dono2 = new Dono("Maria Lima", "98765432100");
 
-        // Criando os objetos
+        // ERRO DE COMPILAÇÃO: descomente a linha abaixo para ver o erro
+        // Celular celularGenerico = new Celular("preto", "samsung", dono1);
+
+        // Criando objetos das subclasses
         Android meuAndroid = new Android("preto", "samsung", dono1, "Android 14");
         Iphone meuIphone = new Iphone("branco", "apple", dono2, "iOS 17");
 
-        System.out.println("=== Teste de Fogo: Polimorfismo ===");
+        System.out.println("=== Tipo de Conector ===");
+        System.out.println("Android: " + meuAndroid.tipoDeConector());
+        System.out.println("iPhone: " + meuIphone.tipoDeConector());
+
+        System.out.println("\n=== Teste de Fogo: Polimorfismo ===");
         List<Celular> celulares = new ArrayList<>();
         celulares.add(meuAndroid);
         celulares.add(meuIphone);
@@ -20,10 +27,6 @@ public class Main {
         for (Celular c : celulares) {
             System.out.println(c.exibirInfo());
         }
-
-        System.out.println("\n=== Testando regras das subclasses ===");
-        Android androidInvalido = new Android("azul", "motorola", dono1, "");  // inválido: versão vazia
-        Iphone iphoneInvalido = new Iphone("preto", "apple", dono2, null);     // inválido: versão nula
 
         System.out.println("\n=== Testando métodos herdados ===");
         meuAndroid.usarBateria(30);

@@ -22,10 +22,16 @@ public class Android extends Celular {
     }
 
     @Override
+    public String tipoDeConector() {
+        return "USB-C";
+    }
+
+    @Override
     public String exibirInfo() {
         return "Android | Marca: " + getMarca() + " | Cor: " + getCor() +
                 " | Bateria: " + getBateria() + "%" +
                 " | Versão: " + versaoAndroid +
+                " | Conector: " + tipoDeConector() +
                 " | Dono: " + getDono().getNome();
     }
 }

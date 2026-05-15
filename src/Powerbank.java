@@ -7,7 +7,7 @@ public class Powerbank implements Carregavel {
     public Powerbank(String marca, int capacidadeMaxima) {
         this.marca = marca;
         this.setCapacidadeMaxima(capacidadeMaxima);
-        this.carga = capacidadeMaxima; // começa cheio
+        this.carga = this.capacidadeMaxima;
     }
 
     // GETTERS
@@ -23,7 +23,7 @@ public class Powerbank implements Carregavel {
     public void setCapacidadeMaxima(int capacidadeMaxima) {
         if (capacidadeMaxima < 1000 || capacidadeMaxima > 30000) {
             System.out.println("Erro: capacidade deve estar entre 1000 e 30000 mAh. Valor ignorado: " + capacidadeMaxima);
-            this.capacidadeMaxima = 10000; // valor padrão
+            this.capacidadeMaxima = 10000;
         } else {
             this.capacidadeMaxima = capacidadeMaxima;
         }
@@ -32,7 +32,7 @@ public class Powerbank implements Carregavel {
     // INTERFACE Carregavel
     @Override
     public void carregar(int quantidade) {
-        if (quantidade <= 0) {
+        if (quantidade <= Carregavel.CARGA_MINIMA) {
             System.out.println("Erro: quantidade deve ser maior que zero.");
             return;
         }

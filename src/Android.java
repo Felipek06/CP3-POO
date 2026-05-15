@@ -40,9 +40,9 @@ public class Android extends Celular implements Carregavel {
     @Override
     public String exibirInfo() {
         return "Android | Marca: " + getMarca() + " | Cor: " + getCor() +
-                " | Bateria: " + getBateria() + "%" +
-                " | Versão: " + versaoAndroid +
-                " | Conector: " + tipoDeConector() +
-                " | Dono: " + getDono().getNome();
+               " | Bateria: " + getBateria() + "%" +
+               " | Versão: " + versaoAndroid +
+               " | Conector: " + tipoDeConector() +
+               " | Dono: " + getDono().getNome();
     }
 }

@@ -40,9 +40,9 @@ public class Iphone extends Celular implements Carregavel {
     @Override
     public String exibirInfo() {
         return "iPhone | Marca: " + getMarca() + " | Cor: " + getCor() +
-                " | Bateria: " + getBateria() + "%" +
-                " | Versão: " + versaoIOS +
-                " | Conector: " + tipoDeConector() +
-                " | Dono: " + getDono().getNome();
+               " | Bateria: " + getBateria() + "%" +
+               " | Versão: " + versaoIOS +
+               " | Conector: " + tipoDeConector() +
+               " | Dono: " + getDono().getNome();
     }
 }

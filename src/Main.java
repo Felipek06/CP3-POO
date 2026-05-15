@@ -8,15 +8,32 @@ public class Main {
         Dono dono1 = new Dono("João Silva", "12345678901");
         Dono dono2 = new Dono("Maria Lima", "98765432100");
 
+        // ERRO DE COMPILAÇÃO: descomente para ver o erro
+        // Celular celularGenerico = new Celular("preto", "samsung", dono1);
+
         // Criando objetos
         Android meuAndroid = new Android("preto", "samsung", dono1, "Android 14");
         Iphone meuIphone = new Iphone("branco", "apple", dono2, "iOS 17");
         Powerbank meuPowerbank = new Powerbank("Anker", 20000);
 
-        // ERRO DE COMPILAÇÃO: descomente para ver o erro
-        // Celular celularGenerico = new Celular("preto", "samsung", dono1);
+        System.out.println("=== Tipo de Conector ===");
+        System.out.println("Android: " + meuAndroid.tipoDeConector());
+        System.out.println("iPhone: " + meuIphone.tipoDeConector());
 
-        System.out.println("=== Teste de Fogo: Polimorfismo com interface Carregavel ===");
+        System.out.println("\n=== Constantes da Interface ===");
+        System.out.println("Carga mínima: " + Carregavel.CARGA_MINIMA + "%");
+        System.out.println("Carga máxima: " + Carregavel.CARGA_MAXIMA + "%");
+
+        System.out.println("\n=== Teste de Fogo: Polimorfismo com Celular ===");
+        List<Celular> celulares = new ArrayList<>();
+        celulares.add(meuAndroid);
+        celulares.add(meuIphone);
+
+        for (Celular c : celulares) {
+            System.out.println(c.exibirInfo());
+        }
+
+        System.out.println("\n=== Teste de Fogo: Polimorfismo com Carregavel ===");
         List<Carregavel> carregaveis = new ArrayList<>();
         carregaveis.add(meuAndroid);
         carregaveis.add(meuIphone);
@@ -82,10 +99,6 @@ public class Main {
         }
 
         System.out.println("\n=== Exibindo info final ===");
-        List<Celular> celulares = new ArrayList<>();
-        celulares.add(meuAndroid);
-        celulares.add(meuIphone);
-
         for (Celular c : celulares) {
             System.out.println(c.exibirInfo());
         }

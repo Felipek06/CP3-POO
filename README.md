@@ -12,7 +12,7 @@
 
 ## Descrição do Projeto
 
-Este projeto é o resultado do aprendizado nas aulas 1-9 de Programação Orientada a Objetos, onde desenvolvemos um sistema de modelagem de **celulares** com hierarquia de tipos (Android e iPhone), associação com o objeto `Dono`, e comportamentos compartilhados via interface `Carregavel`.
+Este projeto é o resultado do aprendizado nas aulas 1-9 de Programação Orientada a Objetos, onde desenvolvemos um sistema de modelagem de **celulares** com hierarquia de tipos (Android e iPhone), associação com o objeto `Dono`, comportamentos compartilhados via interface `Carregavel` e um `Powerbank` como classe independente que também implementa a interface.
 
 ---
 
@@ -27,7 +27,10 @@ Dono
 Powerbank (implements Carregavel)
 
 <<interface>> Carregavel
-    └── implementado por: Android, Iphone, Powerbank
+    ├── CARGA_MINIMA = 0
+    ├── CARGA_MAXIMA = 100
+    ├── carregar(int quantidade)
+    └── getNivelCarga()
 ```
 
 ---
@@ -48,8 +51,8 @@ Representa um celular genérico no mundo real. É abstrata pois não faz sentido
 **Métodos:**
 | Método | Descrição | Regra de negócio |
 |---|---|---|
-| `carregarBateria(int)` | Aumenta o nível de bateria | Não ultrapassa 100%; rejeita valores ≤ 0 |
-| `usarBateria(int)` | Diminui o nível de bateria | Não vai abaixo de 0%; rejeita valores ≤ 0 |
+| `carregarBateria(int)` | Aumenta o nível de bateria | Não ultrapassa `CARGA_MAXIMA`; rejeita valores ≤ 0 |
+| `usarBateria(int)` | Diminui o nível de bateria | Não vai abaixo de `CARGA_MINIMA`; rejeita valores ≤ 0 |
 | `exibirInfo()` | Retorna dados do celular formatados | — |
 | `tipoDeConector()` | **Abstrato** — cada subclasse define seu conector | Obrigatório nas filhas |
 
@@ -63,7 +66,7 @@ Especialização de `Celular` que representa aparelhos com sistema Android.
 |---|---|---|
 | `versaoAndroid` | `String` | Versão do sistema Android instalado |
 
-**Regra:** `setVersaoAndroid()` não aceita valores nulos ou vazios.  
+**Regra:** `setVersaoAndroid()` não aceita valores nulos ou vazios.
 **Conector:** retorna `"USB-C"` no `tipoDeConector()`.
 
 ---
@@ -76,7 +79,7 @@ Especialização de `Celular` que representa aparelhos Apple.
 |---|---|---|
 | `versaoIOS` | `String` | Versão do sistema iOS instalado |
 
-**Regra:** `setVersaoIOS()` não aceita valores nulos ou vazios.  
+**Regra:** `setVersaoIOS()` não aceita valores nulos ou vazios.
 **Conector:** retorna `"Lightning"` no `tipoDeConector()`.
 
 ---
@@ -113,6 +116,9 @@ Define o contrato de comportamento para qualquer objeto que pode ser carregado.
 
 ```java
 public interface Carregavel {
+    int CARGA_MINIMA = 0;
+    int CARGA_MAXIMA = 100;
+
     void carregar(int quantidade);
     int getNivelCarga();
 }
@@ -181,7 +187,7 @@ Variáveis soltas funcionam para um único objeto, mas quebram completamente ao 
 **Pergunta:** Por que criar `carregarBateria(valor)` em vez de alterar `bateria` diretamente?
 
 **Resposta:**
-Alterar `bateria` diretamente no `main` significa que qualquer parte do código pode colocar o valor -50 ou 999 sem que ninguém impeça. O método `carregarBateria()` centraliza a regra: bateria não pode ultrapassar 100% nem ir abaixo de 0%. Se essa regra precisar mudar, alteramos em um único lugar. Sem o método, a mesma verificação teria que ser repetida em todo lugar onde a bateria é modificada — o que é frágil, propenso a erros e impossível de manter em sistemas grandes.
+Alterar `bateria` diretamente no `main` significa que qualquer parte do código pode colocar o valor -50 ou 999 sem que ninguém impeça. O método `carregarBateria()` centraliza a regra: bateria não pode ultrapassar `CARGA_MAXIMA` nem ir abaixo de `CARGA_MINIMA`. Se essa regra precisar mudar, alteramos em um único lugar. Sem o método, a mesma verificação teria que ser repetida em todo lugar onde a bateria é modificada — o que é frágil, propenso a erros e impossível de manter em sistemas grandes.
 
 ---
 
@@ -190,7 +196,7 @@ Alterar `bateria` diretamente no `main` significa que qualquer parte do código 
 **Pergunta:** Por que é seguro deixar o `get` público, mas perigoso deixar o atributo original público?
 
 **Resposta:**
-O `getCor()` entrega uma cópia do valor — quem recebe não consegue alterar o atributo original. Já deixar `cor` como `public` é entregar o documento original: qualquer código externo pode escrever `meuCelular.cor = null` sem passar por nenhuma validação. No nosso projeto, o `setBateria()` tem a regra que rejeita valores fora de 0-100. Se `bateria` fosse público, essa regra seria ignorável por qualquer linha do `main`, tornando a proteção inútil. O encapsulamento garante que o estado do objeto só muda por caminhos controlados.
+O `getCor()` entrega uma cópia do valor — quem recebe não consegue alterar o atributo original. Já deixar `cor` como `public` é entregar o documento original: qualquer código externo pode escrever `meuCelular.cor = null` sem passar por nenhuma validação. No nosso projeto, o `setBateria()` tem a regra que rejeita valores fora de `CARGA_MINIMA` e `CARGA_MAXIMA`. Se `bateria` fosse público, essa regra seria ignorável por qualquer linha do `main`, tornando a proteção inútil. O encapsulamento garante que o estado do objeto só muda por caminhos controlados.
 
 ---
 
@@ -244,4 +250,37 @@ O Java não deduz porque a decisão de abstração é de negócio, não técnica
 **Pergunta:** Por que Java permite herança simples mas múltipla implementação de interfaces?
 
 **Resposta:**
-A herança múltipla de classes cria o "problema do diamante": se `Android` herdasse de `Celular` e de `Powerbank`, e ambas tivessem um método `carregar()` com implementações diferentes, o Java não saberia qual usar. As interfaces resolvem isso porque definem apenas o contrato — a assinatura do método — sem implementação (com exceção de `default methods`). Quando `Android` implementa `Carregavel`, ele é obrigado a fornecer sua própria implementação de `carregar()`, eliminando a ambiguidade. No nosso projeto, `Android`, `Iphone` e `Powerbank` implementam `Carregavel` cada um à sua maneira, sem conflito.
+A herança múltipla de classes cria o "problema do diamante": se `Android` herdasse de `Celular` e de `Powerbank`, e ambas tivessem um método `carregar()` com implementações diferentes, o Java não saberia qual usar. As interfaces resolvem isso porque definem apenas o contrato — a assinatura do método — sem implementação. Quando `Android` implementa `Carregavel`, ele é obrigado a fornecer sua própria implementação de `carregar()`, eliminando a ambiguidade. No nosso projeto, `Android`, `Iphone` e `Powerbank` implementam `Carregavel` cada um à sua maneira, sem conflito.
+
+---
+
+## Desafios Técnicos Implementados
+
+### Desafio Pessoal (Seu Projeto)
+
+**Qual foi o domínio que você escolheu para seu projeto pessoal?**
+Sistema de modelagem de celulares — representando aparelhos do mundo real com seus tipos, donos e comportamentos de carga.
+
+**Quais classes você criou?**
+- `Celular` (superclasse abstrata)
+- `Android` (subclasse)
+- `Iphone` (subclasse)
+- `Dono` (associação)
+- `Powerbank` (classe independente)
+- `Carregavel` (interface)
+
+**Qual foi o maior desafio técnico que você enfrentou?**
+O maior desafio foi entender a diferença entre classe abstrata e interface e decidir quando usar cada uma. No início, parecia que ambas serviam para "forçar a implementação de métodos nas filhas", mas ao longo do projeto ficou claro que a classe abstrata `Celular` existe para compartilhar estado e comportamento comum (atributos, regras de bateria), enquanto a interface `Carregavel` define um contrato de comportamento que pode ser implementado por classes de hierarquias completamente diferentes — como `Android` e `Powerbank`, que não têm nenhuma relação de herança entre si. Outro desafio foi o uso correto das constantes da interface (`CARGA_MINIMA` e `CARGA_MAXIMA`) em vez de números fixos espalhados pelo código, o que tornou o sistema mais coeso e fácil de manter.
+
+---
+
+## Conclusão
+
+**O que você aprendeu nestas 9 aulas?**
+Aprendi que Programação Orientada a Objetos não é apenas uma forma diferente de escrever código — é uma forma de modelar o mundo real com responsabilidades bem definidas. Cada conceito se conecta ao anterior: encapsulamento protege o estado, construtores garantem a criação correta, herança evita repetição, polimorfismo permite flexibilidade, classes abstratas definem contratos com implementação parcial e interfaces definem contratos puros de comportamento.
+
+**Qual conceito foi mais difícil de entender?**
+Polimorfismo foi o conceito mais difícil de entender inicialmente, especialmente a ideia de que uma variável do tipo `Celular` pode executar o método de um `Android` em tempo de execução. A virada de chave aconteceu ao ver o loop `for (Celular c : celulares)` chamando `exibirInfo()` e cada objeto respondendo de forma diferente — isso tornou o conceito concreto e prático.
+
+**O que você melhoraria no seu projeto se pudesse refazer?**
+Criaria um método `toString()` em cada classe para substituir o `exibirInfo()`, seguindo a convenção do Java. Também separaria melhor as responsabilidades: o `Main.java` ficou grande demais, e os testes poderiam estar em uma classe dedicada. Por fim, usaria `protected` em vez de `private` em alguns atributos da superclasse `Celular` para facilitar o acesso direto nas subclasses sem precisar sempre dos getters.
